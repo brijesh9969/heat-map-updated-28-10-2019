@@ -483,18 +483,22 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
 
     #13  14
-    realdata.append(left_leg_zero)
-    realdata.append(left_leg_two)
-    # realdata.append(right_leg_zero)
-    # realdata.append(right_leg_two)
-
-    realdata.append(left_leg_zero_time)
-    realdata.append(left_leg_two_time)
+    # realdata.append(left_leg_zero)
+    # realdata.append(left_leg_two)
+    #
+    # realdata.append(left_leg_zero_time)
+    # realdata.append(left_leg_two_time)
 
     realdata.append(foot_flat_time_percent_act)
     realdata.append([cadence])
-    # realdata.append(right_leg_zero_time)
-    # realdata.append(right_leg_two_time)
+
+    double_suppo_phase_final=[]
+    for i in range(len(stance_phase)):
+        print(realdata[3][i]-realdata[4][i])
+        double_suppo_phase_final.append(abs(realdata[3][i]-realdata[4][i]))
+
+    realdata.append(double_suppo_phase_final)
+
 
 
 
@@ -666,16 +670,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     print("TOEEE")
     # print(toe)
 
-            # time.append((data[i][0]))
-    # print("jjjjjjjjjj")
-    # print(j)
-
-
-    # for i in range(len(toe_deviation)):
-    #     if float(toe_deviation[i])<0:
-    #         toe_in.append(float(toe_deviation[i]))
-    #     else:
-    #         toe_out.append(float(toe_deviation[i]))
     for i in range(len(toe)):
         toe_in.append(toe[i][0])
         toe_in.append(toe[i][1])
@@ -763,24 +757,7 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     print("STANCE PHASE PER CYCLE")
     print(stance_phase_final)
 
-    # stance_phase_final=[]
-    # try:
-    #     for i in range(len(start_time)-1):
-    #         stance_phase_final.append(abs(float(stance_time[i])-float(start_time[i])))
-    # except:
-    #     print("ERROR")
-    # print("STANCE PHASE PER CYCLE")
-    # print(stance_phase_final)
 
-
-    # swing_phase_final=[]
-    # try:
-    #     for i in range(len(start_time)-1):
-    #         swing_phase_final.append(float(stride_time_final[i])-float(stance_phase_final[i]))
-    # except:
-    #     print("ERROR")
-    # print("SWING PHASE PER CYCLE")
-    # print(swing_phase_final)
     swing_phase_final=[]
     for i in range(len(start_time)-1):
         swing_phase_final.append(float(stride_time_final[i])-float(stance_phase_final[i]))
@@ -817,8 +794,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     print(sixty_percent)
     stance_phase=[]
 
-    # for i in range(len(sixty_percent)):
-    #     stance_phase.append(float(start_time[i])*100/float(sixty_percent[i]))
 
 
 
@@ -889,11 +864,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
 
 
-    # cadence=(float(data[-1][0])-float(data[10][0]))/counter
-    # print("cadence")
-    # print(cadence)
-    # print(data[10][0])
-    # print(data[-1][0])
 
     totaltime=(float(data[-1][0])-float(data[10][0]))/1000
     timey=60/totaltime
@@ -901,159 +871,58 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
     cadence=round(counter*2*timey)
 
-    realdata2=[]
-    realdata2.append(stride_time_final)
-    realdata2.append(stance_phase_final)
-    realdata2.append(swing_phase_final)
-    realdata2.append(stance_phase)
-    realdata2.append(swing_phase_percent)
-    realdata2.append([stridelength])
-    realdata2.append([steplength])
-    realdata2.append(strike_angle)
-    realdata2.append(lift_off_angle)
-    realdata2.append(max_heel)
-    realdata2.append(max_toe)
-    realdata2.append(toe_out)
-    realdata2.append(toe_in)
-
-    # realdata2.append(left_leg_zero)
-    # realdata2.append(left_leg_two)
-    realdata2.append(right_leg_zero)
-    realdata2.append(right_leg_two)
-
-    # realdata2.append(left_leg_zero_time)
-    # realdata2.append(left_leg_two_time)
-    realdata2.append(right_leg_zero_time)
-    realdata2.append(right_leg_two_time)
-    realdata2.append(foot_flat_time_percent_act)
-    realdata2.append([cadence])
+    realdata2=[]#indexing
+    realdata2.append(stride_time_final)#0
+    realdata2.append(stance_phase_final)#1
+    realdata2.append(swing_phase_final)#2
+    realdata2.append(stance_phase)#3
+    realdata2.append(swing_phase_percent)#4
+    realdata2.append([stridelength])#5
+    realdata2.append([steplength])#6
+    realdata2.append(strike_angle)#7
+    realdata2.append(lift_off_angle)#8
+    realdata2.append(max_heel)#9
+    realdata2.append(max_toe)#10
+    realdata2.append(toe_out)#11
+    realdata2.append(toe_in)#12
+    # realdata2.append(right_leg_zero)#13 not in use
+    # realdata2.append(right_leg_two)#14 not in use
+    # realdata2.append(right_leg_zero_time)#15 not in use
+    # realdata2.append(right_leg_two_time)#16 not in use
+    realdata2.append(foot_flat_time_percent_act)#17 now13
+    realdata2.append([cadence])#18 now 14
 
 
+    double_suppo_phase_final=[]
+    for i in range(len(stance_phase)):
+        print(realdata2[3][i]-realdata2[4][i])
+        double_suppo_phase_final.append(abs(realdata2[3][i]-realdata2[4][i]))
 
-
-    stepwidth=[]
-    for i in range(len(realdata[13])-2):
-        #left leg zero - right leg two
-        stepwidth.append(abs(float(realdata[13][i])-float(realdata2[14][i])))
-        #left leg two - right leg zero
-        stepwidth.append(abs(float(realdata2[14][i])-float(realdata[13][i])))
-
-
-
-    print("leftleg")
-    double_support_phase_left_array=[]
-    try:
-        k=0
-        for k in range(len(double_support_phase_left)):
-            for i in range(len(data)):
-                    if (float(data[i][0]) > float(double_support_phase_left[k])) and (float(data[i][0]) <float(double_support_phase_left[k+1])) and (data[i][16])=='2' and (data[i+1][16])=='3':
-                        print("aaaa")
-                        double_support_phase_left_array.append(float(data[i][0]))
-                        # double_support_phase_left_array.append(k)
-                        # print(double_support_phase_left[k])
-                        # print(double_support_phase_left[k+1])
-                    k+=2
-            k+=2
+    realdata2.append(double_suppo_phase_final) #15
 
 
 
 
 
-    except:
-        print("IGNORING THE EXCEPTION")
-
-    print("douuble sp leftt")
-    # print(double_support_phase_left_array[0])
-    # print(double_support_phase_left[0])
-
-    # print(double_support_phase_left_arLay[0]-float(double_support_phase_left[0]))
-
-    try:
-
-        ll=0
-        double_support_phase_left_time=[]
-        for i in range(len(double_support_phase_left_array)):
-            double_support_phase_left_time.append(float(double_support_phase_left_array[i])-float(double_support_phase_left[ll]))
-            ll+=2
-    except:
-        print("Unexpected errror")
-
-    double_support_phase_left_time_phase=[]
-    for i in range(len(double_support_phase_left_time)):
-        double_support_phase_left_time_phase.append(double_support_phase_left_time[i]*100/stride_time_final_left[i])
 
 
-    print(double_support_phase_left_time_phase)
-
-    realdata.append(double_support_phase_left_time_phase)
-
-
-
-    print("rightleg")
-
-    print(double_support_phase_right)
-
-    double_support_phase_right_array=[]
-    try:
-        k=0
-        for i in range(len(datacopy)):
-                # print("KKKKK")
-                if (float(datacopy[i][0]) > float(double_support_phase_right[k])) and (float(datacopy[i][0]) <float(double_support_phase_right[k+1])) and (datacopy[i][16])=='2' and (datacopy[i+1][16])=='3':
-                    print("bbbbbb")
-                    double_support_phase_right_array.append(float(datacopy[i][0]))
-                    # double_support_phase_left_array.append(k)
-                    print(double_support_phase_right[k])
-                    print(double_support_phase_right[k+1])
-                    k+=2
-    except:
-        print("IGNORING THE EXCEPTION 2")
-
-    print("douuble sp right")
-    print(double_support_phase_right_array)
-    print(double_support_phase_right)
-
-    try:
-        l=0
-        double_support_phase_right_time=[]
-        for i in range(len(double_support_phase_right_array)):
-            double_support_phase_right_time.append(float(double_support_phase_right_array[i])-float(double_support_phase_right[l]))
-            l+=2
-    except:
-        print("Unexpected errror 2")
-
-    double_support_phase_right_time_phase=[]
-    for i in range(len(double_support_phase_right_time)):
-        double_support_phase_right_time_phase.append(double_support_phase_right_time[i]*100/stride_time_final[i])
-
-
-    print(double_support_phase_right_time_phase)
-
-    realdata2.append(double_support_phase_right_time_phase)
-
-    realdata2.append(stepwidth)
-    realdata.append(stepwidth)
 
     print("REal data")
 
     leftleg=[]
     stdevleftleg=[]
     for i in range(len(realdata)):
-        # print(realdata[i])
 
         if len(realdata[i])==0:
             leftleg.append("-")
             stdevleftleg.append("-")
-            print(realdata[i])
         elif len(realdata[i])==1:
-            #round(1.923328437452, 3)
             leftleg.append(round(realdata[i][0],2))
             stdevleftleg.append(0.05)
-            print(realdata[i])
 
         else:
-            print(realdata[i])
             leftleg.append(round(mean(realdata[i]),2))
-            stdevleftleg.append(stdev(realdata[i]))
+            stdevleftleg.append(round(stdev(realdata[i]),2))
 
 
 
@@ -1063,23 +932,20 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     rightleg=[]
     stdevrightleg=[]
     for i in range(len(realdata2)):
-        # print(realdata[i])
-
         if len(realdata2[i])==0:
             rightleg.append("-")
             stdevrightleg.append("-")
             print(realdata2[i])
         elif len(realdata2[i])==1:
             rightleg.append(round(realdata2[i][0],2))
-            stdevrightleg.append(0.05)
+            stdevrightleg.append("0.05")
 
-            print(realdata2[i])
 
         else:
             print(realdata2[i])
             rightleg.append(round(mean(realdata2[i]),2))
-            print("STD DEV")
-            print(stdev(realdata2[i]))
+            stdevrightleg.append(round(stdev(realdata2[i]),2))
+
 
 
 
@@ -1088,9 +954,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
     print(len(realdata2))
     print(len(rightleg))
-    print("step_height_list")
-    print(step_height_list)
-
 
 
 
@@ -1109,7 +972,17 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     pdf.cell(200, 10, txt="Gatti SPATIAL TEMPORAL PARAMETER", ln=1, align="C")
     pdf.cell(200, 10, "NAME : "+str(name1)+ "     AGE :"+str(pp) + "     WEIGHT :"+str(wt) + "     HEIGHT :"+str(ht) + "     BMI :"+str(bmi), ln=1, align="L")
 
-    # pdf.cell(50, 10, "Age : "+str(pp), ln=1, align="C")
+    pdf.image('.\images\stridelength.png',60,130,20,10);
+    pdf.image('.\images\steplength.png',60,140,20,10);
+    pdf.image('.\images\stepwidth.png',60,150,20,10);
+    pdf.image('.\images\strikeangle.png',60,160,20,10);
+    pdf.image('.\images\liftoffangle.png',60,170,20,10);
+    pdf.image('.\images\maxheel.png',60,200,20,10);
+    pdf.image('.\images\maxtoe.png',60,210,20,10);
+    pdf.image('.\images\oein1.png',60,220,20,10);
+    pdf.image('.\images\oeout1.png',60,230,20,10);
+
+
 
     pdf.cell(50, 10, "TEMPORAL PARAMETERS", ln=0, align="L")
     pdf.cell(20, 10, "", ln=0, align="C")
@@ -1118,56 +991,62 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     pdf.cell(50, 10, "LEFT LIMB", ln=1  , align="C")
 
 
-    pdf.cell(50, 10, "Stride Time(s)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(round(rightleg[0]/1000,2)), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(round(leftleg[0]/1000,2)), ln=1, align="C")
+    pdf.cell(50, 10, "Stride Time(s)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(round(rightleg[0]/1000,2))+"±"+str(round(stdevrightleg[0]/1000,2)),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(round(leftleg[0]/1000,2))+"±"+str(round(stdevleftleg[0]/1000,2)),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Stance Time(s)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(round(rightleg[1]/1000,2)), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(round(leftleg[1]/1000,2)), ln=1, align="C")
+    pdf.cell(50, 10, "Stance Time(s)", 1,ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(round(rightleg[1]/1000,2))+"±"+str(round(stdevrightleg[1]/1000,2)),1, ln=0  , align="C")
+    pdf.cell(20, 10, "", 1,ln=0, align="C")
+    pdf.cell(50, 10, str(round(leftleg[1]/1000,2))+"±"+str(round(stdevleftleg[1]/1000,2)),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Swing Time(s)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(round(rightleg[2]/1000,2)), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(round(leftleg[2]/1000,2)), ln=1, align="C")
+    pdf.cell(50, 10, "Swing Time(s)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(round(rightleg[2]/1000,2))+"±"+str(round(stdevrightleg[2]/1000,2)),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(round(leftleg[2]/1000,2))+"±"+str(round(stdevleftleg[2]/1000,2)),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Stance phase %", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[3]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(leftleg[3]), ln=1, align="C")
+    pdf.cell(50, 10, "Stance phase %",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[3])+"±"+str(stdevrightleg[3]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[3])+"±"+str(stdevleftleg[3]),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Swing phase %", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[4]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(leftleg[4]), ln=1, align="C")
+    pdf.cell(50, 10, "Swing phase %",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[4])+"±"+str(stdevrightleg[4]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[4])+"±"+str(stdevleftleg[4]),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Double support Phase %", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(round(rightleg[3]-rightleg[4],2)), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(round(leftleg[3]-leftleg[4],2)), ln=1, align="C")
+    # pdf.cell(50, 10, "Double support Phase %", ln=0, align="L")
+    # pdf.cell(20, 10, "", ln=0, align="C")
+    # pdf.cell(50, 10, str(round(rightleg[3]-rightleg[4],2)), ln=0  , align="C")
+    # pdf.cell(20, 10, "", ln=0, align="C")
+    # pdf.cell(50, 10, str(round(leftleg[3]-leftleg[4],2)), ln=1, align="C")
+    pdf.cell(50, 10, "Double support Phase %",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[15])+"±"+str(stdevrightleg[15]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[15])+"±"+str(stdevleftleg[15]),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Foot-flat of stance %", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[17]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(leftleg[17]), ln=1, align="C")
-    if rightleg[18]>leftleg[18]:
-        maxcadence=rightleg[18]
+
+    pdf.cell(50, 10, "Foot-flat of stance %",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[13])+"±"+str(stdevrightleg[13]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[13])+"±"+str(stdevleftleg[13]),1, ln=1, align="C")
+    if rightleg[14]>leftleg[14]:
+        maxcadence=rightleg[14]
     else:
-        maxcadence=leftleg[18]
+        maxcadence=leftleg[14]
 
-    pdf.cell(50, 10, "cadence steps/min", ln=0, align="L")
-    pdf.cell(70, 10, "", ln=0, align="C")
-    pdf.cell(20, 10, str(maxcadence), ln=0  , align="C")
-    pdf.cell(50, 10, "", ln=1, align="C")
+    pdf.cell(50, 10, "cadence steps/min",1, ln=0, align="L")
+    pdf.cell(70, 10, "",1, ln=0, align="C")
+    pdf.cell(20, 10, str(maxcadence),1, ln=0  , align="C")
+    pdf.cell(50, 10, "",1, ln=1, align="C")
     # pdf.cell(50, 10, str(leftleg[18]), ln=1, align="C")
 
     ##########
@@ -1178,45 +1057,41 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     pdf.cell(50, 10, "LEFT LIMB", ln=1  , align="C")
 
 
-    pdf.cell(50, 10, "Stride Length(m)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[5]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(leftleg[5]), ln=1, align="C")
+    pdf.cell(50, 10, "Stride Length(m)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[5])+"±"+str(stdevrightleg[5]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[5])+"±"+str(stdevleftleg[5]),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Step length(m)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[6]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(leftleg[6]), ln=1, align="C")
+    pdf.cell(50, 10, "Step length(m)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[6])+"±"+str(stdevrightleg[6]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[6])+"±"+str(stdevleftleg[6]),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Step width(m)", ln=0, align="L")
-    # pdf.cell(20, 10, "", ln=0, align="C")
-    # pdf.cell(50, 10, str(leftleg[20]), ln=0  , align="C")
-    # pdf.cell(20, 10, "", ln=0, align="C")
-    # pdf.cell(50, 10, str(leftleg[20]), ln=1, align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, "-", ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, "-", ln=1, align="C")
+    pdf.cell(50, 10, "Step width(m)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, "-",1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, "-",1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Strike angel(degree)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[7]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(leftleg[7]), ln=1, align="C")
+    pdf.cell(50, 10, "Strike angel(degree)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[7])+"±"+str(stdevrightleg[7]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[7])+"±"+str(stdevleftleg[7]),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Lift off angel(degree)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[8]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(leftleg[8]), ln=1, align="C")
+    pdf.cell(50, 10, "Lift off angel(degree)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[8])+"±"+str(stdevrightleg[8]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[8])+"±"+str(stdevleftleg[8]),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "Step Height(in cm)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, "3.27", ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, "2.52", ln=1, align="C")
+    pdf.cell(50, 10, "Step Height(in cm)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, "3.27",1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, "2.52",1, ln=1, align="C")
 
 
     pdf.cell(50, 10, "CLEARANCE PARAMETERS", ln=0, align="L")
@@ -1225,35 +1100,32 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     pdf.cell(20, 10, "", ln=0, align="C")
     pdf.cell(50, 10, "LEFT LIMB", ln=1  , align="C")
 
-    pdf.cell(50, 10, "MAX HEEL(m)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[9]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(leftleg[9]), ln=1, align="C")
+    pdf.cell(50, 10, "MAX HEEL(m)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[9])+"±"+str(stdevrightleg[9]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[9])+"±"+str(stdevleftleg[9]),1, ln=1, align="C")
 
-    pdf.cell(50, 10, "MAX TOE(m)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[10]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(leftleg[10]), ln=1, align="C")
+    pdf.cell(50, 10, "MAX TOE(m)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[10])+"±"+str(stdevrightleg[10]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(leftleg[10])+"±"+str(stdevleftleg[10]),1, ln=1, align="C")
 
 
-    pdf.cell(50, 10, "TOE IN DEVIATION(degree)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[12]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(-leftleg[12]), ln=1, align="C")
+    pdf.cell(50, 10, "TOE IN(degree)",1, ln=0, align="L")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[12])+"±"+str(stdevrightleg[12]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(-leftleg[12])+"±"+str(stdevleftleg[12]),1, ln=1, align="C")
 
-    # pdf.cell(20, 10, "", ln=0, align="C")
-    # pdf.cell(50, 10,'10.75', ln=0  , align="C")
-    # pdf.cell(20, 10, "", ln=0, align="C")
-    # pdf.cell(50, 10, '10.75', ln=1, align="C")
 
-    pdf.cell(50, 10, "TOE OUT DEVIATION(degree)", ln=0, align="L")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(rightleg[11]), ln=0  , align="C")
-    pdf.cell(20, 10, "", ln=0, align="C")
-    pdf.cell(50, 10, str(-leftleg[11]), ln=1, align="C")
+
+    pdf.cell(50, 10, "TOE OUT(degree)",1, ln=0, align="L")
+    pdf.cell(20, 10, "", 1,ln=0, align="C")
+    pdf.cell(50, 10, str(rightleg[11])+"±"+str(stdevrightleg[11]),1, ln=0  , align="C")
+    pdf.cell(20, 10, "",1, ln=0, align="C")
+    pdf.cell(50, 10, str(-leftleg[11])+"±"+str(stdevleftleg[11]),1, ln=1, align="C")
     file_name=name+".pdf"
 
 
