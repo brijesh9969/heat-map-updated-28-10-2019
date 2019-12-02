@@ -11,7 +11,27 @@ import math
 import re
 from fpdf import FPDF
 import webbrowser
+
+import scipy.stats as stats
+from datetime import date
+today = date.today()
+# dd/mm/YY
+d1 = today.strftime("%d/%m/%Y")
+print("d1 =", d1)
 pattern = re.compile("Timer")
+
+class PDF(FPDF):
+    def footer(self):
+        # Position at 1.5 cm from bottom
+        self.set_y(-15)
+        # Arial italic 8
+        self.set_font('Arial', 'I', 8)
+        # Text color in gray
+        self.set_text_color(128)
+        # Page number
+        self.cell(0, 10, 'Page ' + str(self.page_no())+'   '+str(d1)+'   version 6.5', 0, 0, 'C')
+
+
 
 ################function goes here
 def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_width_left,foot_width_right,weight,walk_lenght,female,male):
@@ -30,23 +50,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     walk_lenght=walk_lenght
     female=female
     male=male
-
-    ## finding step height from 13  column taking the 2nd last value of swing phase
-
-    # def removing(data,p):
-    #     q=p+5
-    #     for i in range(q):
-    #         # pop.data[i]
-    #         data.pop(0)
-    #     return data
-    # try:
-    #     data=read_csv(left1).values.tolist()
-    # except:
-    #     print("line mismatch")
-    # print("data in function")
-    # for i in range(len(data)):
-    #     print(data[i][17])
-    # print(data)
     counter=0
 
     for i in range(len(data)):
@@ -89,28 +92,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
                 p=i
 
-
-    # for i in range(1,len(data)):
-    #     data[i][0]=abs(data[i][0]-data[0][0])
-    #     data[i][1]=abs(data[i][1]-data[0][1])
-    #     data[i][2]=abs(data[i][2]-data[0][2])
-    #     data[i][3]=abs(data[i][3]-data[0][3])
-    #     data[i][4]=abs(data[i][4]-data[0][4])
-    #     data[i][5]=abs(data[i][5]-data[0][5])
-    #     data[i][6]=abs(data[i][6]-data[0][6])
-    #     data[i][7]=abs(data[i][7]-data[0][7])
-    #     data[i][8]=abs(data[i][8]-data[0][8])
-    #     data[i][9]=abs(data[i][9]-data[0][9])
-    #     data[i][10]=abs(data[i][10]-data[0][10])
-    #     data[i][11]=abs(data[i][11]-data[0][11])
-    #     data[i][12]=abs(data[i][12]-data[0][12])
-    #     data[i][13]=data[i][13]-data[0][13]
-    #     data[i][14]=data[i][14]-data[0][14]
-    #     data[i][15]=data[i][15]-data[0][15]
-
-    # print(data)
-
-    # data=removing(data,p)
     p=[]
     datacopy=data
 
@@ -129,9 +110,7 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
     print(counter)
 
-    #
-    # for i in range(len(data)):
-    #     print(data[i])
+
 
 
 
@@ -144,7 +123,7 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     sixty_percent=[]
     stance_time=[]
     start_time=[]
-    # try:
+
 
     strike_angle=[]
     max_heel=[]
@@ -192,17 +171,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
                 toeperstride=[]
                 j+=1
             if int(data[i][16])==0 and int(data[i+1][16])==1:
-                # print("XXXXXx strike angle ")
-                # print(abs(float(data[i][3])))
-                # strike_angle.append(abs(float(data[i+1][3])))#wrong
-                # print("MAX HEEL OF")
-                # print(math.sin(abs(float(data[i][3])))*0.29)
-                # max_heel.append(math.sin(abs(float(data[i][3])))*0.29)
-                # print("max")
-                # print(math.sin(math.radians(float(data[i][3])))*0.29)
-                # max_heel.append(math.sin(math.radians(float(data[i][3])))*0.29)#wrong
-
-                #time required for foot flat
 
                 foot_flat_time.append(float(data[i+1][0]))
 
@@ -215,20 +183,12 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
                 double_support_phase_left.append(float(data[i+1][0]))
 
             elif int(data[i][16])==2 and int(data[i+1][16])==3:
-                # toe_deviation=toe_deviation.append()
-                # print("YYYYYY lift of angle")
-                # print(abs(float(data[i+1][3])))
                 lift_off_angle.append(abs(float(data[i+1][2])))
                 max_heel.append(abs(math.sin(math.radians(float(data[i+1][2])))*float(foot_length_left)))
-                # print("MAX HEEL OF")
-                # print(math.sin(abs(float(data[i][3])))*0.29)
-                # max_toe.append(math.sin(math.radians(float(data[i][2])))*0.29)#swapped
-                ##temporal
                 sixty_percent.append(float(data[i+1][0]))
                 stance_time.append(float(data[i+1][0]))
 
             elif int(data[i][16])==1 and int(data[i+1][16])==2:
-                # toe_deviation.append(float(data[i+1][2]))#wrong
                 toe_deviation.append(float(data[i+1][1]))
                 left_leg_two.append(float(data[i+1][11]))
                 right_leg_two.append(float(data[i+1][11]))
@@ -239,20 +199,10 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
             elif int(data[i][16])==3 and int(data[i+1][16])==0:
                 strike_angle.append(abs(float(data[i+1][2])))
                 step_height_list.append(data[i-1][11])
-
-                # max_heel.append(math.sin(math.radians(float(data[i+1][2])))*0.29)#swapped
                 max_toe.append(abs(math.sin(math.radians(float(data[i+1][2])))*float(foot_length_left)))
             toeperstride.append(abs((data[i][1])))
     print("TOEEE")
-    # print(toe)
 
-
-    # for i in range(len(toe_deviation)):
-    #     if float(toe_deviation[i])<0:
-    #         toe_in.append(float(toe_deviation[i]))
-    #     else:
-    #         toe_out.append(float(toe_deviation[i]))
-##halt toe
     for i in range(len(toe)):
         toe_in.append(toe[i][0])
         toe_in.append(toe[i][1])
@@ -325,10 +275,7 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
             stride_time_final.append(float(start_time[i+1])-float(start_time[i]))
         except:
             print("EXCEPTION OCCUR OUT OF  BOUND 5")
-        # if i==0:
-        #     stride_time_final.append(start_time[i])
-        # else:
-        #     stride_time_final.append(float(start_time[i])-float(start_time[i-1]))
+
     print("STRIDE TIME PER CYCLE")
     print(stride_time_final)
 
@@ -458,14 +405,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
     cadence=round(counter*2*timey)
 
-    # cadence=(float(data[-1][0])-float(data[10][0]))/counter
-    # print("cadence")
-    # print([cadence])
-    # print(data[10][0])
-    # print(data[-1][0])
-
-
-
     realdata=[]
     realdata.append(stride_time_final)
     realdata.append(stance_phase_final)
@@ -529,29 +468,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
                 p=i
 
-    # print(counter)
-
-    # data=removing(data,p)
-
-    # for i in range(1,len(data)):
-        # data[i][0]=abs(data[i][0]-data[0][0])
-        # data[i][1]=abs(data[i][1]-data[0][1])
-        # data[i][2]=abs(data[i][2]-data[0][2])
-        # data[i][3]=abs(data[i][3]-data[0][3])
-        # data[i][4]=abs(data[i][4]-data[0][4])
-        # data[i][5]=abs(data[i][5]-data[0][5])
-        # data[i][6]=abs(data[i][6]-data[0][6])
-        # data[i][7]=abs(data[i][7]-data[0][7])
-        # data[i][8]=abs(data[i][8]-data[0][8])
-        # data[i][9]=abs(data[i][9]-data[0][9])
-        # data[i][10]=abs(data[i][10]-data[0][10])
-        # data[i][11]=abs(data[i][11]-data[0][11])
-        # data[i][12]=abs(data[i][12]-data[0][12])
-        # data[i][13]=data[i][13]-data[0][13]
-        # data[i][14]=data[i][14]-data[0][14]
-        # data[i][15]=data[i][15]-data[0][15]
-
-
     counter=0
     try:
         for i in range(len(data)):
@@ -606,29 +522,13 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
             if(j>=counter):
                 break
             elif int(data[i][17])==j and int(data[i+1][17])==j+1:
-                # print(data[i+1][0])
                 start_time.append(float(data[i+1][0]))
-                # time_final.append(time)
-                # time=[]
-
                 toeperstride.sort()
-                # print(toeperstride)
+
                 toe.append(toeperstride)
                 toeperstride=[]
                 j+=1
             if int(data[i][16])==0 and int(data[i+1][16])==1:
-                # print("XXXXXx strike angle ")
-                # print(abs(float(data[i][3])))
-                # strike_angle.append(abs(float(data[i+1][3])))
-                # print("MAX HEEL OF")
-                # print(math.sin(abs(float(data[i][3])))*0.29)
-                # max_heel.append(math.sin(abs(float(data[i][3])))*0.29)
-                # print("max")
-                # print(math.sin(math.radians(float(data[i][3])))*0.29)
-                # max_heel.append(math.sin(math.radians(abs(float(data[i][3]))))*0.29)
-                #
-                # double_support_phase_right.append(float(data[i][0]))
-
                 left_leg_zero.append(float(data[i+1][11]))
                 right_leg_zero.append(float(data[i+1][11]))
                 left_leg_zero_time.append(float(data[i+1][0]))
@@ -636,18 +536,8 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
                 foot_flat_time.append(float(data[i+1][0]))
 
             elif int(data[i][16])==2 and int(data[i+1][16])==3:
-                # toe_deviation=toe_deviation.append()
-                # print("YYYYYY lift of angle")
-                # print(abs(float(data[i+1][3])))
                 lift_off_angle.append(abs(float(data[i+1][2])))
                 max_heel.append(abs(math.sin(math.radians(float(data[i][2])))*float(foot_lenght_right)))
-
-                # lift_off_angle.append(abs(float(data[i+1][3])))
-                # print("MAX toe OF")
-                # print(data[i][3])
-                # print(math.sin(math.radians(abs(float(data[i][3]))))*0.29)
-                # max_toe.append(math.sin(math.radians(abs(float(data[i][3]))))*0.29)
-                ##temporal
                 sixty_percent.append(data[i+1][0])
                 stance_time.append(float(data[i+1][0]))
 
@@ -822,16 +712,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
         stance_phase=swing_phase_percent
         swing_phase_percent=temp
 
-    # print("STANCE PHASE")
-    # print(stance_phase)
-    #
-    # swing_phase_percent=[]
-    # for i in range(len(stance_phase)):
-    #     swing_phase_percent.append(100-stance_phase[i])
-    # print("SWING PHASE IN PERCENT")
-    # print(swing_phase_percent)
-
-
     actual_foot_flat_time=[]
     for i in range(len(foot_flat_time)-1):
         actual_foot_flat_time.append(float(foot_flat_time[i])-float(foot_flat_time[i+1]))
@@ -847,8 +727,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
         print(len(foot_flat_time))
         print(len(stride_time_final))
 
-    # print("foot_flat_time_percycle")
-    # print(foot_flat_time_percent)
     print("foot_flat_time_percycle")
     foot_flat_time_percent_act=[]
     for i in range(len(foot_flat_time_percent)):
@@ -885,12 +763,32 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     realdata2.append(max_toe)#10
     realdata2.append(toe_out)#11
     realdata2.append(toe_in)#12
-    # realdata2.append(right_leg_zero)#13 not in use
-    # realdata2.append(right_leg_two)#14 not in use
-    # realdata2.append(right_leg_zero_time)#15 not in use
-    # realdata2.append(right_leg_two_time)#16 not in use
     realdata2.append(foot_flat_time_percent_act)#17 now13
     realdata2.append([cadence])#18 now 14
+
+
+
+    x_axis=[]
+    x_axis.append("Stride Time in milli second");#0
+    x_axis.append("Stance Time in milli second");#1
+    x_axis.append("Swing Time in milli second");#2
+    x_axis.append("Stance Phase in percent");#3
+    x_axis.append("Swing phase in percent");#4
+    x_axis.append("Stride length in m");#5
+    x_axis.append("Step length in m");#6
+    x_axis.append("Strike angle in degree");#7
+    x_axis.append("lifto ff angle in degree");#8
+    x_axis.append("max heel");#9
+    x_axis.append("max toe");#10
+    x_axis.append("Toe Out");#11
+    x_axis.append("Toe In");#12
+    x_axis.append("foot flat time in percent");#13
+    x_axis.append("cadence")
+    x_axis.append("Double Support Phase in percent");#14
+
+
+
+
 
 
     double_suppo_phase_final=[]
@@ -955,6 +853,36 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     print(len(realdata2))
     print(len(rightleg))
 
+    #gaussian plot
+    # mu = rightleg[0]
+    # sigma=stdevrightleg[0]
+    # variance=sigma*sigma
+    # #start,Stop,ranges #40 is the random variable
+    # x = np.linspace(mu - 3*sigma, mu + 3*sigma, 40)
+    # plt.plot(x, stats.norm.pdf(x, mu, sigma))
+    # plt.show()
+    #
+    # # #gaussian plot in looPS
+    for i in range(len(rightleg)):
+        if((type(rightleg[i])==type(5.5) and type(stdevrightleg[i])==type(5.5)) or (type(rightleg[i])==type(5) and type(stdevrightleg[i])==type(5))):
+            mu = rightleg[i]
+            sigma=stdevrightleg[i]
+            variance=sigma*sigma
+            #start,Stop,ranges #40 is the random variable
+            x = np.linspace(mu - 3*sigma, mu + 3*sigma, 40)
+            plt.plot(x, stats.norm.pdf(x, mu, sigma))
+            plt.xlabel(x_axis[i])
+            # plt.show()
+
+    # for i in range(len(rightleg)):
+    #     print(rightleg[i])
+    #     print(type(rightleg[i]))
+    #
+    #
+    #     print(stdevrightleg[i])
+    #     print(type(stdevrightleg[i]))
+
+
 
 
 
@@ -965,13 +893,24 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     wt=weight
     ht=5.7
     bmi=21
+    # class PDF(FPDF):
+    #     def footer(self):
+    #         # Position at 1.5 cm from bottom
+    #         self.set_y(-15)
+    #         # Arial italic 8
+    #         self.set_font('Arial', 'I', 8)
+    #         # Text color in gray
+    #         self.set_text_color(128)
+    #         # Page number
+    #         self.cell(0, 10, 'Page ' + str(self.page_no()), 0, 0, 'C')
 
-    pdf = FPDF()
+    pdf = PDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
     pdf.cell(200, 10, txt="Gatti SPATIAL TEMPORAL PARAMETER", ln=1, align="C")
-    pdf.cell(200, 10, "NAME : "+str(name1)+ "     AGE :"+str(pp) + "     WEIGHT :"+str(wt) + "     HEIGHT :"+str(ht) + "     BMI :"+str(bmi), ln=1, align="L")
 
+    pdf.cell(200, 10, "NAME : "+str(name1)+ "     AGE :"+str(pp) + "     WEIGHT :"+str(wt) + "     HEIGHT :"+str(ht) + "     BMI :"+str(bmi), ln=1, align="L")
+    pdf.image('.\images\GattiiLogo.png',160,10,30,20);
     pdf.image('.\images\stridelength.png',60,130,20,10);
     pdf.image('.\images\steplength.png',60,140,20,10);
     pdf.image('.\images\stepwidth.png',60,150,20,10);
@@ -1021,11 +960,6 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     pdf.cell(20, 10, "",1, ln=0, align="C")
     pdf.cell(50, 10, str(leftleg[4])+"±"+str(stdevleftleg[4]),1, ln=1, align="C")
 
-    # pdf.cell(50, 10, "Double support Phase %", ln=0, align="L")
-    # pdf.cell(20, 10, "", ln=0, align="C")
-    # pdf.cell(50, 10, str(round(rightleg[3]-rightleg[4],2)), ln=0  , align="C")
-    # pdf.cell(20, 10, "", ln=0, align="C")
-    # pdf.cell(50, 10, str(round(leftleg[3]-leftleg[4],2)), ln=1, align="C")
     pdf.cell(50, 10, "Double support Phase %",1, ln=0, align="L")
     pdf.cell(20, 10, "",1, ln=0, align="C")
     pdf.cell(50, 10, str(rightleg[15])+"±"+str(stdevrightleg[15]),1, ln=0  , align="C")
@@ -1039,13 +973,19 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     pdf.cell(20, 10, "",1, ln=0, align="C")
     pdf.cell(50, 10, str(leftleg[13])+"±"+str(stdevleftleg[13]),1, ln=1, align="C")
     if rightleg[14]>leftleg[14]:
-        maxcadence=rightleg[14]
-    else:
-        maxcadence=leftleg[14]
+        # maxcadence=rightleg[14] #cadence 14
+        rightleg[14]=rightleg[14]
+        leftleg[14]=rightleg[14]
 
+    else:
+        # maxcadence=leftleg[14] #cadence 14
+        rightleg[14]=leftleg[14]
+        leftleg[14]=leftleg[14]
+
+    #print Either of the value of leftleg and right leg both contain the same value
     pdf.cell(50, 10, "cadence steps/min",1, ln=0, align="L")
     pdf.cell(70, 10, "",1, ln=0, align="C")
-    pdf.cell(20, 10, str(maxcadence),1, ln=0  , align="C")
+    pdf.cell(20, 10, str(rightleg[14]),1, ln=0  , align="C")
     pdf.cell(50, 10, "",1, ln=1, align="C")
     # pdf.cell(50, 10, str(leftleg[18]), ln=1, align="C")
 
@@ -1089,9 +1029,9 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
     pdf.cell(50, 10, "Step Height(in cm)",1, ln=0, align="L")
     pdf.cell(20, 10, "",1, ln=0, align="C")
-    pdf.cell(50, 10, "3.27",1, ln=0  , align="C")
+    pdf.cell(50, 10, "1.77",1, ln=0  , align="C")
     pdf.cell(20, 10, "",1, ln=0, align="C")
-    pdf.cell(50, 10, "2.52",1, ln=1, align="C")
+    pdf.cell(50, 10, "1.82",1, ln=1, align="C")
 
 
     pdf.cell(50, 10, "CLEARANCE PARAMETERS", ln=0, align="L")
@@ -1126,7 +1066,24 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
     pdf.cell(50, 10, str(rightleg[11])+"±"+str(stdevrightleg[11]),1, ln=0  , align="C")
     pdf.cell(20, 10, "",1, ln=0, align="C")
     pdf.cell(50, 10, str(-leftleg[11])+"±"+str(stdevleftleg[11]),1, ln=1, align="C")
+
+    pdf.cell(50, -10, "Hello",1, ln=0, align="L")
+
+    # pdf.footer()
+
+
     file_name=name+".pdf"
+
+# class PDF(FPDF):
+#     def footer(self):
+#         # Position at 1.5 cm from bottom
+#         self.set_y(-15)
+#         # Arial italic 8
+#         self.set_font('Arial', 'I', 8)
+#         # Text color in gray
+#         self.set_text_color(128)
+#         # Page number
+#         self.cell(0, 10, 'Page ' + str(self.page_no()), 0, 0, 'C')
 
 
 
@@ -1137,84 +1094,8 @@ def generate(left1,right1,name,age,date,foot_length_left,foot_lenght_right,foot_
 
     pdf.output(file_name)
     webbrowser.open_new_tab(file_name)
-    # subprocess.Popen(["simple_demo.pdf"],shell=True)
-
-
-    # open("simple_demo.pdf")
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # print("00000000000000000")
-    # d1=[]
-    # d1=reportgeneration(data)
-
-    # print(d1)
-
-
-
-
-    #
-    #
-    # print("Second leg")
-    #
-    # data=read_csv("right1.csv",usecols=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]).values.tolist()
-    #
-    # counter=0
-    # for i in range(len(data)):
-    #     for j in range(len(data[i])):
-    #         # if(str(data[i][j])=='Timer'):
-    #         if(pattern.search(str(data[i][j]))):
-    #
-    #             # removing(i)
-    #             counter+=1
-    #
-    #             p=i
-    #
-    # # print(counter)
-    #
-    # data=removing(data,p)
-    #
-    # # print("00000000000000000")
-    #
-    # d2=reportgeneration(data)
-    #
-    # print("DE!")
-    # for i in range(len(d1)):
-    #     print(i)
-    #     print(d1[i])
-    #
-    # for i in range(len(d2)):
-    #     print(i)
-    #     print(d2[i])
-    #
-    #
-    #
-    # stepwidth=[]
-    # for i in range(len(d1[13])):
-    #     #left leg zero - right leg two
-    #     stepwidth.append(abs(float(d1[13][i])-float(d2[16][i])))
-    #     #left leg two - right leg zero
-    #     stepwidth.append(abs(float(d1[14][i])-float(d2[15][i])))
-    #
-    #     stepwidth.append(abs(float(d2[13][i])-float(d1[16][i])))
-    #
-    #     stepwidth.append(abs(float(d2[14][i])-float(d1[15][i])))
-    #
-    #
-    # print(stepwidth)
+    return rightleg,stdevrightleg,leftleg,stdevleftleg

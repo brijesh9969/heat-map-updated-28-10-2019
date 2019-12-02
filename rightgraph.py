@@ -10,6 +10,7 @@ from matplotlib.pyplot import cm
 import math
 import re
 from fpdf import FPDF
+import random
 
 
 
@@ -199,21 +200,19 @@ def generate_right(data,name):
         file_name=name+" right leg.png"
         plt.savefig(file_name,dpi=200)
         plt.show()
-        # plt.savefig('brijeshright7.png')
 
-        # w = 4
-        # h = 3
-        # d = 70
-        # plt.figure(figsize=(w, h), dpi=d)
-        # plt.subplot(polar=True)
-        # color=iter(cm.rainbow(np.linspace(0,1,10)))
-        # for i in range(counter-1):
-        #     c=next(color)
-        #     c=next(color)
-        #     plt.plot(ex_final[i],time_final3[i],c=c,label="cycle"+str(i+1))
-        #     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-        #     # plt.show()
-        # plt.show()
+
+        dataframelist = pd.DataFrame(ex_final)
+        print("DFD")
+        print(dataframelist)
+        dataframelist_mean=dataframelist.mean(axis = 0, skipna = True)
+        print(dataframelist_mean)
+        plt.plot(time_final3[index], dataframelist_mean,'-',color="black",label="Stride Average")
+        plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        lower_bound=dataframelist.min(axis = 0, skipna = True)
+        upper_bound=dataframelist.max(axis = 0, skipna = True)
+        plt.fill_between(time_final3[index], lower_bound, upper_bound, facecolor='blue', alpha=0.5,label='1 sigma range')
+        plt.show()
 
 
 
@@ -290,6 +289,52 @@ def generate_right(data,name):
         time_final3.append(time_final2)
     print("DDDDDDDDDDDD")
     print(sixty_percent_final)
+    #converting time into percent
+    time_percent_total=[]
+    for i in range(len(time_final3)):
+        time_percent_per_cycle=[]
+        for j in range(len(time_final3[i])):
+            time_percent_per_cycle.append((j*100)/len(time_final3[i]))
+        time_percent_total.append(time_percent_per_cycle)
+
+    largest=len(time_final3[0])
+    index=0
+    index
+    for i in range(len(time_final3)-1):
+        # print(len(time_final3[i]))
+        if len(time_final3[i])<len(time_final3[i+1]):
+            largest=time_final3[i]
+            index=i
+    print(len(time_final3[index]))
+
+    for i  in range(len(time_final3)):
+        discard_remainder=len(time_final3[i])-len(time_final3[index])
+        # print(discard_remainder)
+        if len(time_final3[index])<=len(time_final3[i]):
+            discard_remainder=len(time_final3[i])-len(time_final3[index])
+            print("discard_remainder")
+            print(discard_remainder)
+            for j in range(discard_remainder):
+                p=random.randint(2, len(time_final3[i])-5)
+                time_final3[i].pop(p)
+                ex_final[i].pop(p)
+                ey_final[i].pop(p)
+                ez_final[i].pop(p)
+
+
+
+    # print(largest)
+    # print(index)
+    print("TIMESSSS")
+    # print(time_percent_total)
+
+    for i in range(len(time_final3)):
+        print(len(time_final3[i]))
+
+
+
+
+
 
     plottingmap(time_final3,ex_final,ey_final,ez_final,accx_final,accy_final,accz_final,sixty_percent_final,counter)
 # plottingmap(time_final3,ey_final,"ey")

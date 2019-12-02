@@ -103,7 +103,6 @@ def data_read(datacsv,name,age,date,foot_length_left,foot_lenght_right,foot_widt
 
 
 
-
-    ip.generate(left,right,name,age,date,foot_length_left,foot_lenght_right,foot_width_left,foot_width_right,weight,walk_lenght,female,male)
-    lg.generate_left(left,name)
-    rg.generate_right(right,name)
+    # lg.generate_left(left,name)
+    # rg.generate_right(right,name)
+    return ip.generate(left,right,name,age,date,foot_length_left,foot_lenght_right,foot_width_left,foot_width_right,weight,walk_lenght,female,male)
